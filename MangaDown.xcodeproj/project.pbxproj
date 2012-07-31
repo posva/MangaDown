@@ -60,11 +60,11 @@
 		3452E92E15C3F52000BD2B94 /* MangaDown */ = {
 			isa = PBXGroup;
 			children = (
+				3452E94315C3F55D00BD2B94 /* main.cpp */,
 				3452E93F15C3F55D00BD2B94 /* Image.cpp */,
 				3452E94015C3F55D00BD2B94 /* Image.hpp */,
 				3452E94115C3F55D00BD2B94 /* IniFile.cpp */,
 				3452E94215C3F55D00BD2B94 /* IniFile.hpp */,
-				3452E94315C3F55D00BD2B94 /* main.cpp */,
 				3452E94415C3F55D00BD2B94 /* Manga.cpp */,
 				3452E94515C3F55D00BD2B94 /* Manga.hpp */,
 				3452E94615C3F55D00BD2B94 /* MangaParser.cpp */,

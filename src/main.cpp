@@ -70,9 +70,11 @@ int main (int argc, const char * argv[])
 	
 	while (n > manga.getChapters() || n == 0)
 	{
-		std::cout<<"You must enter a number in range 0.."<<manga.getChapters()<<"\n";
+		std::cout<<"You must enter a number in range 1.."<<manga.getChapters()<<"\n";
 		std::cin>>n;
 	}
+	
+	manga.showChapters();
 	
 	if (!interval)
 	{

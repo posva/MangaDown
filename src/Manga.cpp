@@ -40,12 +40,12 @@ void Manga::downloadInformation()
 		if (!directoryExists("mangas"))
 			createDirectory("mangas");
 		
-		if (!directoryExists("mangas/" + m_webName))
-			createDirectory("mangas/" + m_webName);
+		if (!directoryExists("mangas/" + m_name))
+			createDirectory("mangas/" + m_name);
 		
 		if (m_cover != NULL)
 			delete m_cover;
-		m_cover = new Image(getParse(body, parseCover), "mangas/" + m_webName + "/");
+		m_cover = new Image(getParse(body, parseCover), "mangas/" + m_name + "/");
 		
 		//m_cover->download();
 		m_cover->thDownload();
@@ -73,6 +73,7 @@ void Manga::downloadInformation()
 					break;
 					
 				case URL_absolute:
+					//std::cout<<getParse(chapter_web_list.substr(first), parseChapterListUri)<<" tachan!\n";
 					chapter_url = getUri(getParse(chapter_web_list.substr(first), parseChapterListUri));
 					break;
 					
@@ -132,11 +133,11 @@ void Manga::download(unsigned int chapter)
 	
 	
 	char chapter_dir[300];
-	sprintf(chapter_dir, "%s %u", m_webName.c_str(), chapter);
+	sprintf(chapter_dir, "%s %u", m_name.c_str(), chapter);
 	
-	if (!directoryExists("mangas/" + m_webName + "/" + chapter_dir))
-		createDirectory("mangas/" + m_webName + "/" + chapter_dir);
-	it->setDir("mangas/" + m_webName + "/" + chapter_dir + "/");
+	if (!directoryExists("mangas/" + m_name + "/" + chapter_dir))
+		createDirectory("mangas/" + m_name + "/" + chapter_dir);
+	it->setDir("mangas/" + m_name + "/" + chapter_dir + "/");
 	
 	it->setChapter(chapter);
 	it->thDownload();
@@ -145,7 +146,7 @@ void Manga::download(unsigned int chapter)
 
 void Manga::showInfo() const
 {
-	std::cout<<m_name<<" ("<<m_webName<<") at "<<MangaHost<<m_uri<<". "<<m_num_chapters<<" chapters\n";
+	std::cout<<m_name<<" ("<<m_webName<<") at "<<MangaHost<<m_uri<<". "<<m_chapters.size()<<" chapters\n";
 }
 
 Manga::~Manga()
@@ -205,6 +206,8 @@ void Chapter::download()
 		std::cout<<"Image 1/"<<m_images.size()<<" found.\n";
 		
 		std::string next_page(getParse(body, Manga::parsePageNext));
+		
+		std::cout<<next_page<<" next\n";
 		
 		switch (Manga::chapterPath) {
 			case URL_uri:
@@ -277,4 +280,15 @@ void Chapter::waitForDownloads()
 	for (unsigned int i(0); i<m_images.size(); ++i)
 		if (m_images[i]->getStatus() == down_fail)
 			std::cerr<<"Page "<<i+1<<" failed to download\n";
+}
+
+void Chapter::showInfo() const
+{
+	std::cout<<m_manga->m_name<<" "<<m_num_chapter<<" ("<<m_images.size()<<" pages) at "<<m_uri<<"\n";
+}
+
+void Manga::showChapters() const
+{
+	for (std::list<Chapter>::const_iterator it(m_chapters.begin()); it != m_chapters.end(); ++it)
+		it->showInfo();
 }

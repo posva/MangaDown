@@ -37,6 +37,8 @@ public:
 	inline void launchWait() { m_thDownUrls.wait(); }
 	
 	void waitForDownloads();
+	
+	void showInfo() const;
 };
 
 class Manga {
@@ -71,6 +73,7 @@ public:
 	void download(unsigned int chapter);
 	
 	void showInfo() const;
+	void showChapters() const;
 	inline unsigned int getChapters() const { return m_chapters.size(); }
 	
 	Chapter& getChapter(unsigned int n);
