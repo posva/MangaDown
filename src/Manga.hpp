@@ -25,6 +25,8 @@ class Chapter {
 	//Get the necessary information
 	void download();
 	
+	friend class Manga;
+	
 public:
 	Chapter(const std::string& uri, const Manga* manga, unsigned int num) : m_uri(uri), m_dir(""), m_pages(0), m_num_chapter(num), m_finished(0), m_manga(manga), m_thDownUrls(&Chapter::download, this) {}
 	Chapter(const Chapter& chapter) : m_uri(chapter.m_uri), m_dir(chapter.m_dir), m_pages(chapter.m_pages), m_num_chapter(chapter.m_num_chapter), m_finished(0), m_manga(chapter.m_manga), m_thDownUrls(&Chapter::download, this) {}

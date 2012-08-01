@@ -22,33 +22,46 @@ void Manga::downloadInformation()
 		std::string body(response.getBody());
 		
 		//Erase all of the \n
-		size_t pos;
-		do {
-			pos = body.find('\n');
-			if (pos != body.npos)
-				body.erase(pos, 1);
-		} while (pos != body.npos);
+		eraseN(body);
 		
+		if (testing)
+		{
+			if (!directoryExists("test"))
+				createDirectory("test");
+			
+			FILE* f = fopen("test/body.html", "w");
+			fwrite(body.c_str(), sizeof(char), body.size(), f);
+			fclose(f);
+			
+			std::cout<<"Html page output to file: test/body.html\n";
+			
+		}
 		
 		//Start parsing
 		m_name = getParse(body, parseMangaName);
-		std::string last_chapter(getParse(body, parseChapters)), num_chapters;
-		m_webName = last_chapter.substr(0, last_chapter.find('/'));
-		num_chapters = last_chapter.substr(last_chapter.find('/')+1);
-		sscanf(num_chapters.c_str(), "%u", &m_num_chapters);
+		std::string last_chapter(getParse(body, parseChapters));
+		sscanf(last_chapter.c_str(), "%u", &m_num_chapters);
 		
-		if (!directoryExists("mangas"))
-			createDirectory("mangas");
+		if (testing)
+			std::cout<<"Name parsed: "<<m_name<<"\nChapter count parsed: "<<last_chapter<<"\n";
+		if (!testing)
+		{
+			if (!directoryExists("mangas"))
+				createDirectory("mangas");
+			
+			if (!directoryExists("mangas/" + m_name))
+				createDirectory("mangas/" + m_name);
+		}
 		
-		if (!directoryExists("mangas/" + m_name))
-			createDirectory("mangas/" + m_name);
 		
 		if (m_cover != NULL)
 			delete m_cover;
 		m_cover = new Image(getParse(body, parseCover), "mangas/" + m_name + "/");
 		
-		//m_cover->download();
-		m_cover->thDownload();
+		if (!testing)
+			m_cover->thDownload();
+		else
+			std::cout<<"Cover parsed: "<<m_cover->getUrl()<<"\n";
 		
 		m_loaded = true;
 		
@@ -57,6 +70,19 @@ void Manga::downloadInformation()
 		sf::Clock clock;
 		size_t first(0);
 		std::string chapter_web_list(getParse(body, parseChapterList));
+		//erase all the \n!!
+		eraseN(chapter_web_list);
+		
+		if (testing)
+		{
+			FILE* f = fopen("test/chapter_list.html", "w");
+			fwrite(chapter_web_list.c_str(), sizeof(char), chapter_web_list.size(), f);
+			fclose(f);
+			
+			std::cout<<"Html page output to file: test/chapter_list.html\n";
+			
+		}
+		
 		unsigned int chapter_i(1);
 		while(true)
 		{
@@ -65,7 +91,7 @@ void Manga::downloadInformation()
 				break;
 			else
 				first += parseChapterListElement.begin[0].size();
-			///@todo add relative url etc
+			
 			std::string chapter_url;
 			switch (Manga::chapterPath) {
 				case URL_uri:
@@ -89,6 +115,14 @@ void Manga::downloadInformation()
 			//std::cout<<"Added chapter: "<<m_chapters.back()<<"\n";
 			++chapter_i;
 			
+		}
+		
+		if (testing)
+		{
+			std::cout<<m_chapters.size()<<" chapters were parsed\n";
+			
+			for (std::list<Chapter>::iterator it(m_chapters.begin()); it != m_chapters.end(); ++it)
+				std::cout<<"Chapter "<<it->m_num_chapter<<" parsed: "<<it->m_uri<<"\n";
 		}
 		
 		//std::cout<<"Chapter list created in: "<<clock.getElapsedTime().asSeconds()<<" sec\n";
@@ -135,9 +169,13 @@ void Manga::download(unsigned int chapter)
 	char chapter_dir[300];
 	sprintf(chapter_dir, "%s %u", m_name.c_str(), chapter);
 	
-	if (!directoryExists("mangas/" + m_name + "/" + chapter_dir))
-		createDirectory("mangas/" + m_name + "/" + chapter_dir);
-	it->setDir("mangas/" + m_name + "/" + chapter_dir + "/");
+	if (!testing)
+	{
+		if (!directoryExists("mangas/" + m_name + "/" + chapter_dir))
+			createDirectory("mangas/" + m_name + "/" + chapter_dir);
+		it->setDir("mangas/" + m_name + "/" + chapter_dir + "/");
+	}
+	
 	
 	it->setChapter(chapter);
 	it->thDownload();
@@ -165,7 +203,6 @@ Chapter::~Chapter()
 
 void Chapter::download()
 {
-	
 	sf::Http web(Manga::MangaHost);
 	
 	sf::Http::Request request(m_uri);
@@ -179,14 +216,24 @@ void Chapter::download()
 		std::string body(response.getBody());
 		
 		//Erase all of the \n
-		size_t pos;
-		do {
-			pos = body.find('\n');
-			if (pos != body.npos)
-				body.erase(pos, 1);
-		} while (pos != body.npos);
+		eraseN(body);
+		
+		if (testing)
+		{
+			char html_file[300];
+			sprintf(html_file, "test/chapter_%u_page1.html", m_num_chapter);
+			FILE* f = fopen(html_file, "w");
+			fwrite(body.c_str(), sizeof(char), body.size(), f);
+			fclose(f);
+			
+			std::cout<<"Html page output to file: "<<html_file<<"\n";
+			
+		}
 		
 		sscanf(getParse(body, Manga::parseChapterPages).c_str(), "%u", &m_pages);
+		
+		if (testing)
+			std::cout<<"number of pages for chapter "<<m_num_chapter<<" parsed: "<<m_pages<<"\n";
 		
 		//Clean images
 		for (std::vector<Image*>::iterator it(m_images.begin()); it != m_images.end(); ++it)
@@ -200,14 +247,16 @@ void Chapter::download()
 		m_images[0]->setUrl(getParse(body, Manga::parsePageImg));
 		m_images[0]->setDir(m_dir);
 		char filename[300];
-		sprintf(filename, "%s %u-1", m_manga->m_webName.c_str(), m_num_chapter);
+		sprintf(filename, "%s %u-1", m_manga->m_name.c_str(), m_num_chapter);
 		m_images[0]->setFileName(filename);
-		m_images[0]->thDownload();
-		std::cout<<"Image 1/"<<m_images.size()<<" found.\n";
+		if (!testing)
+		{
+			m_images[0]->thDownload();
+			std::cout<<"Image 1/"<<m_images.size()<<" found.\n";
+		}
+	
 		
 		std::string next_page(getParse(body, Manga::parsePageNext));
-		
-		std::cout<<next_page<<" next\n";
 		
 		switch (Manga::chapterPath) {
 			case URL_uri:
@@ -222,9 +271,11 @@ void Chapter::download()
 				break;
 		}
 		
+		if (testing)
+			std::cout<<"Image 1 parsed: "<<m_images[0]->getUrl()<<"\nNext page parsed: "<<next_page<<"\n";
+		
 		for (unsigned int i(1); i<m_images.size(); ++i)
 		{
-			///@todo modidy for relative path and etc
 			request.setUri(next_page);
 			response = web.sendRequest(request);
 			status = response.getStatus();
@@ -234,21 +285,46 @@ void Chapter::download()
 				std::string body(response.getBody());
 				
 				//Erase all of the \n
-				size_t pos;
-				do {
-					pos = body.find('\n');
-					if (pos != body.npos)
-						body.erase(pos, 1);
-				} while (pos != body.npos);
+				eraseN(body);
+				
+				if (testing && i == 1)
+				{
+					char html_file[300];
+					sprintf(html_file, "test/chapter_%u_other_page.html", m_num_chapter);
+					FILE* f = fopen(html_file, "w");
+					fwrite(body.c_str(), sizeof(char), body.size(), f);
+					fclose(f);
+					
+					std::cout<<"Html page output to file: "<<html_file<<"\n";
+					
+				}
 				
 				m_images[i]->setUrl(getParse(body, Manga::parsePageImg));
 				m_images[i]->setDir(m_dir);
-				sprintf(filename, "%s %u-%u", m_manga->m_webName.c_str(), m_num_chapter, i+1);
+				sprintf(filename, "%s %u-%u", m_manga->m_name.c_str(), m_num_chapter, i+1);
 				m_images[i]->setFileName(filename);
-				m_images[i]->thDownload();
-				next_page = getParse(body, Manga::parsePageNext);
+				if (!testing)
+				{
+					m_images[i]->thDownload();
+					std::cout<<"Image "<<i+1<<"/"<<m_images.size()<<" found.\n";
+				}
 				
-				std::cout<<"Image "<<i+1<<"/"<<m_images.size()<<" found.\n";
+				next_page = getParse(body, Manga::parsePageNext);
+				switch (Manga::chapterPath) {
+					case URL_uri:
+						break;
+					case URL_absolute:
+						next_page = getUri(next_page);
+						break;
+					case URL_relative:
+						next_page = getWorkingDirectory(m_uri) + next_page;
+						break;
+					default:
+						break;
+				}
+				
+				if (testing)
+					std::cout<<"Image "<<i<<" parsed: "<<m_images[i]->getUrl()<<"\nNext page parsed: "<<next_page<<"\n";
 			}
 			else
 				std::cout<<"Error getting page: "<<status<<"\n";
@@ -266,6 +342,9 @@ void Chapter::download()
 
 void Chapter::waitForDownloads()
 {
+	if (testing)
+		return;
+	
 	while (1)
 	{
 		unsigned int done(0);

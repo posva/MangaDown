@@ -10,6 +10,7 @@
 #include <cassert>
 #include "IniFile.hpp"
 
+extern bool testing;
 
 bool directoryExists(const std::string& dir);
 bool createDirectory(const std::string& dir);
@@ -58,12 +59,18 @@ inline std::string getHost(const std::string& url)
 
 inline std::string getFile(const std::string& url)
 {
-	size_t first(0);
+	size_t first(0), end;
 	
 	while (url.find('/', first+1) != url.npos) {
 		first = url.find('/', first+1);
 	}
-	return url.substr(first+1);
+	
+	end = url.find('?', url.find('.', first + 1));
+	
+	if (end == url.npos)
+		return url.substr(first+1);
+	else
+		return url.substr(first+1, end - first - 1);
 }
 
 inline std::string getExtension(const std::string& url)
@@ -133,4 +140,14 @@ inline std::string getWorkingDirectory(const std::string& url)
 		first = url.find('/', first+1);
 	}
 	return url.substr(0, first);
+}
+
+inline void eraseN(std::string& str)
+{
+	size_t pos;
+	do {
+		pos = str.find('\n');
+		if (pos != str.npos)
+			str.erase(pos, 1);
+	} while (pos != str.npos);
 }

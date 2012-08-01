@@ -14,6 +14,51 @@ void MangaParser::load(const std::string &file)
 {
 	IniFile ini(file);
 	
+	if (testing)
+	{
+		if (!ini.isSection("Host"))
+			std::cerr<<"The parser "<<file<<" is missing the section Host\n";
+		else
+		{
+			if (!ini.isKey("Host", "name"))
+				std::cerr<<"The parser "<<file<<" is missing the key name in section Host\n";
+			if (!ini.isKey("Host", "url"))
+				std::cerr<<"The parser "<<file<<" is missing the url name in section Host\n";
+		}
+		
+		if (!ini.isSection("Title"))
+			std::cerr<<"The parser "<<file<<" is missing the section Title (parser section).\n";
+		if (!ini.isSection("Chapters"))
+			std::cerr<<"The parser "<<file<<" is missing the section Chapters (parser section).\n";
+		if (!ini.isSection("Cover"))
+			std::cerr<<"The parser "<<file<<" is missing the section Cover (parser section).\n";
+		if (!ini.isSection("ChapterList"))
+			std::cerr<<"The parser "<<file<<" is missing the section ChapterList (parser section).\n";
+		if (!ini.isSection("ChapterListName"))
+			std::cerr<<"The parser "<<file<<" is missing the section ChapterListName (parser section).\n";
+		if (!ini.isSection("ChapterListUri"))
+			std::cerr<<"The parser "<<file<<" is missing the section ChapterListUri (parser section).\n";
+		else
+		{
+			if (!ini.isKey("ChapterListUri", "type"))
+				std::cerr<<"The parser "<<file<<" is missing the key type in section ChapterListUri\n";
+		}
+		if (!ini.isSection("ChapterListElement"))
+			std::cerr<<"The parser "<<file<<" is missing the section ChapterListElement (parser section).\n";
+		if (!ini.isSection("PageImg"))
+			std::cerr<<"The parser "<<file<<" is missing the section PageImg (parser section).\n";
+		if (!ini.isSection("PageNext"))
+			std::cerr<<"The parser "<<file<<" is missing the section PageNext (parser section).\n";
+		else
+		{
+			if (!ini.isKey("PageNext", "type"))
+				std::cerr<<"The parser "<<file<<" is missing the key type in section PageNext\n";
+		}
+		if (!ini.isSection("PageNumber"))
+			std::cerr<<"The parser "<<file<<" is missing the section PageNumber (parser section).\n";
+
+	}
+	
 	m_name = ini.getValue("Host", "name");
 	m_host = ini.getValue("Host", "url");
 	

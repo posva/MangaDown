@@ -16,6 +16,8 @@
 
 #endif
 
+bool testing(false);
+
 bool directoryExists(const std::string& dir)
 {
 	struct stat buf;
