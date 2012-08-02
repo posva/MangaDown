@@ -17,3 +17,9 @@ This ask you the url of the manga and the chapter to download
 Parsers:
 -MangaReader (by me aka Posva)
 -Manga Fox (by me aka Posva)
+
+
+How to create your parser
+Copy one that already exists and find words that will allow you to find the required information fro downloading the mangas.
+Here's a brief explanation of the INI sections:
+-

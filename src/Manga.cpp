@@ -85,7 +85,7 @@ void Manga::downloadInformation()
 		}
 		
 		unsigned int chapter_i(1);
-		if (Manga::chapterListReversed)
+		
 		while(true)
 		{
 			first = chapter_web_list.find(parseChapterListElement.begin[0], first);
