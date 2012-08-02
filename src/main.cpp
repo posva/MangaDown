@@ -1,46 +1,40 @@
 #include "MangaParser.hpp"
 #include "Manga.hpp"
 
-bool checkArguments(int argc, const char* argv[], unsigned int &arg_counter);
+bool checkArguments(int argc, const char* argv[], int &arg_counter);
 
 int main (int argc, const char * argv[])
 {
-	unsigned int arg_counter(1);
+	int arg_counter(1);
 	std::string manga_url;
 	unsigned int n(0), n2(0);
 	bool interval(false);
 	
 	//Check if there are extra arguments starting with - such as -t to test
+	checkArguments(argc, argv, arg_counter);
 	if (argc > arg_counter)
 	{
-		checkArguments(argc, argv, arg_counter);
+		manga_url = argv[arg_counter];
+		++arg_counter;
 		
+		checkArguments(argc, argv, arg_counter);
 		if (argc > arg_counter)
 		{
-			manga_url = argv[arg_counter];
+			sscanf(argv[arg_counter], "%u", &n);
 			++arg_counter;
-		
+			
 			checkArguments(argc, argv, arg_counter);
 			if (argc > arg_counter)
 			{
-				if (argc > arg_counter + 1)
-				{
-					sscanf(argv[arg_counter], "%u", &n);
-					++arg_counter;
-					checkArguments(argc, argv, arg_counter);
-					sscanf(argv[arg_counter], "%u", &n2);
-					++arg_counter;
-					interval = true;
-				}
-				else
-				{
-					sscanf(argv[arg_counter], "%u", &n);
-					++arg_counter;
-					n2 = n;
-				}
+				sscanf(argv[arg_counter], "%u", &n2);
+				++arg_counter;
+				interval = true;
 			}
+			else
+				n2 = n;
 		}
-			
+		
+		
 		
 		//check again for parameters
 		checkArguments(argc, argv, arg_counter);
@@ -128,11 +122,11 @@ int main (int argc, const char * argv[])
 	return EXIT_SUCCESS;
 }
 
-bool checkArguments(int argc, const char* argv[], unsigned int &arg_counter)
+bool checkArguments(int argc, const char* argv[], int &arg_counter)
 {
 	if (argc > arg_counter && argv[arg_counter][0] == '-')
 	{
-		for (int i(1); i<strlen(argv[arg_counter]); ++i)
+		for (unsigned int i(1); i<strlen(argv[arg_counter]); ++i)
 		{
 			switch (argv[arg_counter][i])
 			{

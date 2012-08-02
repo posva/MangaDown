@@ -4,6 +4,7 @@
 std::string Manga::MangaHost;
 parse Manga::parseCover, Manga::parseChapters, Manga::parseChapterList, Manga::parseChapterListElement, Manga::parseChapterListName, Manga::parseChapterListUri, Manga::parsePageImg, Manga::parsePageNext, Manga::parseChapterPages, Manga::parseMangaName;
 URLKind Manga::mangaPath, Manga::chapterPath;
+bool Manga::chapterListReversed(false);
 
 void Manga::downloadInformation()
 {
@@ -84,6 +85,7 @@ void Manga::downloadInformation()
 		}
 		
 		unsigned int chapter_i(1);
+		if (Manga::chapterListReversed)
 		while(true)
 		{
 			first = chapter_web_list.find(parseChapterListElement.begin[0], first);
@@ -115,6 +117,18 @@ void Manga::downloadInformation()
 			//std::cout<<"Added chapter: "<<m_chapters.back()<<"\n";
 			++chapter_i;
 			
+		}
+		
+		if (Manga::chapterListReversed) // reverse the chapter list
+		{
+			m_chapters.reverse();
+			chapter_i = 1;
+			
+			for (std::list<Chapter>::iterator it(m_chapters.begin()); it != m_chapters.end(); ++it)
+			{
+				it->setChapter(chapter_i);
+				++chapter_i;
+			}
 		}
 		
 		if (testing)
@@ -258,7 +272,7 @@ void Chapter::download()
 		
 		std::string next_page(getParse(body, Manga::parsePageNext));
 		
-		switch (Manga::chapterPath) {
+		switch (Manga::mangaPath) {
 			case URL_uri:
 				break;
 			case URL_absolute:
@@ -266,13 +280,14 @@ void Chapter::download()
 				break;
 			case URL_relative:
 				next_page = getWorkingDirectory(m_uri) + next_page;
+				std::cout<<"wd: "<<getWorkingDirectory(m_uri)<<"\n";
 				break;
 			default:
 				break;
 		}
 		
 		if (testing)
-			std::cout<<"Image 1 parsed: "<<m_images[0]->getUrl()<<"\nNext page parsed: "<<next_page<<"\n";
+			std::cout<<"Image 1 parsed: "<<m_images[0]->getUrl()<<"\nNext page parsed (Uri format): "<<next_page<<"\n";
 		
 		for (unsigned int i(1); i<m_images.size(); ++i)
 		{
@@ -310,7 +325,7 @@ void Chapter::download()
 				}
 				
 				next_page = getParse(body, Manga::parsePageNext);
-				switch (Manga::chapterPath) {
+				switch (Manga::mangaPath) {
 					case URL_uri:
 						break;
 					case URL_absolute:
@@ -324,7 +339,7 @@ void Chapter::download()
 				}
 				
 				if (testing)
-					std::cout<<"Image "<<i<<" parsed: "<<m_images[i]->getUrl()<<"\nNext page parsed: "<<next_page<<"\n";
+					std::cout<<"Image "<<i+1<<" parsed: "<<m_images[i]->getUrl()<<"\nNext page parsed: "<<next_page<<"\n";
 			}
 			else
 				std::cout<<"Error getting page: "<<status<<"\n";

@@ -34,6 +34,11 @@ void MangaParser::load(const std::string &file)
 			std::cerr<<"The parser "<<file<<" is missing the section Cover (parser section).\n";
 		if (!ini.isSection("ChapterList"))
 			std::cerr<<"The parser "<<file<<" is missing the section ChapterList (parser section).\n";
+		else
+		{
+			if (!ini.isKey("ChapterList", "reversed"))
+				std::cerr<<"The parser "<<file<<" is missing the key reversed in section ChapterList\n";
+		}
 		if (!ini.isSection("ChapterListName"))
 			std::cerr<<"The parser "<<file<<" is missing the section ChapterListName (parser section).\n";
 		if (!ini.isSection("ChapterListUri"))
@@ -59,6 +64,8 @@ void MangaParser::load(const std::string &file)
 
 	}
 	
+	unsigned int read_int;
+	
 	m_name = ini.getValue("Host", "name");
 	m_host = ini.getValue("Host", "url");
 	
@@ -68,6 +75,8 @@ void MangaParser::load(const std::string &file)
 	Manga::parseCover.load(ini, "Cover");
 	
 	Manga::parseChapterList.load(ini, "ChapterList");
+	sscanf(ini.getValue("ChapterList", "reversed").c_str(), "%u", &read_int);
+	Manga::chapterListReversed = static_cast<bool>(read_int);
 	Manga::parseChapterListName.load(ini, "ChapterListName");
 	Manga::parseChapterListUri.load(ini, "ChapterListUri");
 	Manga::parseChapterListElement.load(ini, "ChapterListElement");
@@ -75,7 +84,6 @@ void MangaParser::load(const std::string &file)
 	Manga::parsePageNext.load(ini, "PageNext");
 	Manga::parseChapterPages.load(ini, "PageNumber");
 	
-	unsigned int read_int;
 	sscanf(ini.getValue("ChapterListUri", "type").c_str(), "%u", &read_int);
 	Manga::chapterPath = static_cast<URLKind>(read_int);
 	sscanf(ini.getValue("PageNext", "type").c_str(), "%u", &read_int);

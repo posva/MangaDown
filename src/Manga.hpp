@@ -10,9 +10,9 @@ class MangaParser;
 class Manga;
 
 enum URLKind {
-	URL_uri,
-	URL_relative,
-	URL_absolute
+	URL_uri = 0,
+	URL_relative = 1,
+	URL_absolute = 2
 	};
 
 class Chapter {
@@ -48,6 +48,7 @@ class Manga {
 	static std::string MangaHost;
 	static parse parseChapters, parseCover, parseChapterList, parseChapterListElement, parseChapterListName, parseChapterListUri, parsePageImg, parsePageNext, parseChapterPages, parseMangaName;
 	static URLKind mangaPath, chapterPath;
+	static bool chapterListReversed;
 	
 	std::string m_name, m_webName, m_uri;
 	unsigned int m_num_chapters;

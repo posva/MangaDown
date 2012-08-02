@@ -15,4 +15,5 @@ This ask you for the chapter to download
 This ask you the url of the manga and the chapter to download
 
 Parsers:
--MangaReader (written by me aka Posva)
+-MangaReader (by me aka Posva)
+-Manga Fox (by me aka Posva)

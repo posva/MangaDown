@@ -59,10 +59,18 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "http://www.mangareader.net/naruto"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "http://mangafox.me/manga/fairy_tail/"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-t"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "306"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

@@ -139,7 +139,7 @@ inline std::string getWorkingDirectory(const std::string& url)
 	while (url.find('/', first+1) != url.npos) {
 		first = url.find('/', first+1);
 	}
-	return url.substr(0, first);
+	return url.substr(0, first+1);
 }
 
 inline void eraseN(std::string& str)
