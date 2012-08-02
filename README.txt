@@ -21,5 +21,4 @@ Parsers:
 
 How to create your parser
 Copy one that already exists and find words that will allow you to find the required information fro downloading the mangas.
-Here's a brief explanation of the INI sections:
--
+The 'type' can be 1(uri), 2(relative) or 3(absolute).
