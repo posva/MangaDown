@@ -1,0 +1,63 @@
+# depslib dependency file v1.0
+1343996962 source:c:\users\edu\desktop\posva-mangadown-8c27f94\src\image.cpp
+	"Image.hpp"
+
+1343996962 c:\users\edu\desktop\posva-mangadown-8c27f94\src\image.hpp
+	<SFML/Network.hpp>
+	"Utils.hpp"
+
+1343997255 c:\users\edu\desktop\posva-mangadown-8c27f94\src\utils.hpp
+	<string>
+	<string.h>
+	<vector>
+	<list>
+	<iostream>
+	<dirent.h>
+	<cstdlib>
+	<cmath>
+	<cassert>
+	"IniFile.hpp"
+
+1343996962 c:\users\edu\desktop\posva-mangadown-8c27f94\src\inifile.hpp
+	<map>
+	<fstream>
+
+1343996962 source:c:\users\edu\desktop\posva-mangadown-8c27f94\src\inifile.cpp
+	"IniFile.hpp"
+
+1343996962 source:c:\users\edu\desktop\posva-mangadown-8c27f94\src\manga.cpp
+	"Manga.hpp"
+	<SFML/Network.hpp>
+
+1343996962 c:\users\edu\desktop\posva-mangadown-8c27f94\src\manga.hpp
+	<string>
+	<vector>
+	<list>
+	<iostream>
+	"Utils.hpp"
+	"Image.hpp"
+
+1343996962 source:c:\users\edu\desktop\posva-mangadown-8c27f94\src\mangaparser.cpp
+	"MangaParser.hpp"
+	"Manga.hpp"
+
+1343996962 c:\users\edu\desktop\posva-mangadown-8c27f94\src\mangaparser.hpp
+	<string>
+	<list>
+	<SFML/Network.hpp>
+	"IniFile.hpp"
+	"Utils.hpp"
+	"Image.hpp"
+
+1343996962 source:c:\users\edu\desktop\posva-mangadown-8c27f94\src\utils.cpp
+	"Utils.hpp"
+	<sys/types.h>
+	<sys/stat.h>
+	<direct.h>
+
+1343996962 source:c:\users\edu\desktop\posva-mangadown-8c27f94\src\main.cpp
+	"MangaParser.hpp"
+	"Manga.hpp"
+
+1343933175 source:c:\users\edu\desktop\posva-mangadown-8c27f94\resources.rc
+

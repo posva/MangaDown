@@ -280,7 +280,6 @@ void Chapter::download()
 				break;
 			case URL_relative:
 				next_page = getWorkingDirectory(m_uri) + next_page;
-				std::cout<<"wd: "<<getWorkingDirectory(m_uri)<<"\n";
 				break;
 			default:
 				break;

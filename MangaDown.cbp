@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MangaDown" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\MangaDown" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\MangaDown" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-DSFML_STATIC" />
+		</Compiler>
+		<Linker>
+			<Add option="-lsfml-network-s" />
+			<Add option="-lsfml-system-s" />
+		</Linker>
+		<Unit filename="resources.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="src\Image.cpp" />
+		<Unit filename="src\Image.hpp" />
+		<Unit filename="src\IniFile.cpp" />
+		<Unit filename="src\IniFile.hpp" />
+		<Unit filename="src\Manga.cpp" />
+		<Unit filename="src\Manga.hpp" />
+		<Unit filename="src\MangaParser.cpp" />
+		<Unit filename="src\MangaParser.hpp" />
+		<Unit filename="src\Utils.cpp" />
+		<Unit filename="src\Utils.hpp" />
+		<Unit filename="src\main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
