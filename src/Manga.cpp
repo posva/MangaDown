@@ -40,11 +40,23 @@ void Manga::downloadInformation()
 		
 		//Start parsing
 		m_name = getParse(body, parseMangaName);
+		
+		//Supress all white spaces at the end of the name!!
+		
+		for (int i(m_name.size()-1); i>=0; --i)
+		{
+			if (m_name[i] == ' ')
+				m_name.resize(i);
+			else
+				break;
+		}
+		
+		
 		std::string last_chapter(getParse(body, parseChapters));
 		sscanf(last_chapter.c_str(), "%u", &m_num_chapters);
 		
 		if (testing)
-			std::cout<<"Name parsed: "<<m_name<<"\nChapter count parsed: "<<last_chapter<<"\n";
+			std::cout<<"Name parsed: "<<m_name<<".\nChapter count parsed: "<<last_chapter<<"\n";
 		if (!testing)
 		{
 			if (!directoryExists("mangas"))
