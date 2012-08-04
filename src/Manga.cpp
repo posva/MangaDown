@@ -106,7 +106,7 @@ void Manga::downloadInformation()
 			else
 				first += parseChapterListElement.begin[0].size();
 			
-			std::string chapter_url;
+			std::string chapter_url, chapter_name(getParse(chapter_web_list.substr(first), Manga::parseChapterListName));
 			switch (Manga::chapterPath) {
 				case URL_uri:
 					chapter_url = getParse(chapter_web_list.substr(first), parseChapterListUri);
@@ -124,7 +124,7 @@ void Manga::downloadInformation()
 				default:
 					break;
 			}
-			m_chapters.push_back(Chapter(chapter_url, this, chapter_i));
+			m_chapters.push_back(Chapter(chapter_url, this, chapter_i, chapter_name));
 			
 			//std::cout<<"Added chapter: "<<m_chapters.back()<<"\n";
 			++chapter_i;
@@ -148,7 +148,7 @@ void Manga::downloadInformation()
 			std::cout<<m_chapters.size()<<" chapters were parsed\n";
 			
 			for (std::list<Chapter>::iterator it(m_chapters.begin()); it != m_chapters.end(); ++it)
-				std::cout<<"Chapter "<<it->m_num_chapter<<" parsed: "<<it->m_uri<<"\n";
+				std::cout<<"Chapter "<<it->m_num_chapter<<" parsed: "<<it->m_name<<" at "<<it->m_uri<<"\n";
 		}
 		
 		//std::cout<<"Chapter list created in: "<<clock.getElapsedTime().asSeconds()<<" sec\n";

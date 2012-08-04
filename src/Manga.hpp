@@ -17,7 +17,7 @@ enum URLKind {
 
 class Chapter {
 	std::vector<Image*> m_images;
-	std::string m_uri, m_dir;
+	std::string m_uri, m_dir, m_name;
 	unsigned int m_pages, m_num_chapter, m_finished;
 	const Manga* m_manga;
 	
@@ -28,8 +28,8 @@ class Chapter {
 	friend class Manga;
 	
 public:
-	Chapter(const std::string& uri, const Manga* manga, unsigned int num) : m_uri(uri), m_dir(""), m_pages(0), m_num_chapter(num), m_finished(0), m_manga(manga), m_thDownUrls(&Chapter::download, this) {}
-	Chapter(const Chapter& chapter) : m_uri(chapter.m_uri), m_dir(chapter.m_dir), m_pages(chapter.m_pages), m_num_chapter(chapter.m_num_chapter), m_finished(0), m_manga(chapter.m_manga), m_thDownUrls(&Chapter::download, this) {}
+	Chapter(const std::string& uri, const Manga* manga, unsigned int num, const std::string& name) : m_uri(uri), m_dir(""), m_name(name), m_pages(0), m_num_chapter(num), m_finished(0), m_manga(manga), m_thDownUrls(&Chapter::download, this) {}
+	Chapter(const Chapter& chapter) : m_uri(chapter.m_uri), m_dir(chapter.m_dir), m_name(chapter.m_name), m_pages(chapter.m_pages), m_num_chapter(chapter.m_num_chapter), m_finished(0), m_manga(chapter.m_manga), m_thDownUrls(&Chapter::download, this) {}
 	~Chapter();
 	
 	inline void setDir(const std::string& dir) { m_dir = dir; }

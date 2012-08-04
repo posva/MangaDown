@@ -22,8 +22,9 @@ When the application ask you to enter chapter you can either enter a single chap
 the two values (the 2 chapters are also downloaded), ex: 31 35 download chapters 31, 32, 33, 34 and 35.
 
 Parsers:
--MangaReader (by me aka Posva)
--Manga Fox (by me aka Posva)
+-MangaReader[ENG] (by me aka Posva)
+-Manga Fox[ENG] (by me aka Posva)
+-MangaHere[ENG] (by me aka Posva)
 
 
 How to create your parser
