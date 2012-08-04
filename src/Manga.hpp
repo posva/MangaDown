@@ -50,7 +50,7 @@ class Manga {
 	static URLKind mangaPath, chapterPath;
 	static bool chapterListReversed;
 	
-	std::string m_name, m_webName, m_uri;
+	std::string m_name, m_uri;
 	unsigned int m_num_chapters;
 	friend class MangaParser;
 	friend class Chapter;
@@ -61,12 +61,12 @@ class Manga {
 	sf::Thread m_thInfo;
 	
 public:
-	Manga() : m_name(""), m_webName(""), m_uri(""), m_num_chapters(0), m_loaded(false), m_cover(NULL), m_thInfo(&Manga::downloadInformation, this) {}
-	Manga(const std::string& uri, const std::string& name) : m_name(name), m_webName(""), m_uri(uri), m_num_chapters(0), m_loaded(false), m_cover(NULL), m_thInfo(&Manga::downloadInformation, this)
+	Manga() : m_name(""), m_uri(""), m_num_chapters(0), m_loaded(false), m_cover(NULL), m_thInfo(&Manga::downloadInformation, this) {}
+	Manga(const std::string& uri, const std::string& name) : m_name(name), m_uri(uri), m_num_chapters(0), m_loaded(false), m_cover(NULL), m_thInfo(&Manga::downloadInformation, this)
 	{
 		
 	}
-	Manga(const Manga& manga) : m_name(manga.m_name), m_webName(manga.m_webName), m_uri(manga.m_uri), m_num_chapters(manga.m_num_chapters), m_loaded(manga.m_loaded), m_cover(manga.m_cover), m_thInfo(&Manga::downloadInformation, this) 
+	Manga(const Manga& manga) : m_name(manga.m_name), m_uri(manga.m_uri), m_num_chapters(manga.m_num_chapters), m_loaded(manga.m_loaded), m_cover(manga.m_cover), m_thInfo(&Manga::downloadInformation, this) 
 	{
 		
 	}

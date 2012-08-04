@@ -210,7 +210,7 @@ void Manga::download(unsigned int chapter)
 
 void Manga::showInfo() const
 {
-	std::cout<<m_name<<" ("<<m_webName<<") at "<<MangaHost<<m_uri<<". "<<m_chapters.size()<<" chapters\n";
+	std::cout<<m_name<<" at "<<MangaHost<<m_uri<<". "<<m_chapters.size()<<" chapters\n";
 }
 
 Manga::~Manga()

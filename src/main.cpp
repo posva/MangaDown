@@ -75,24 +75,24 @@ int main (int argc, const char * argv[])
 	if (!testing)
 		manga.showInfo();
 	
+	
+	char read_buff[100];
 	if (n == 0 || n2 == 0)
 	{
-		std::cout<<"Which chapter do you want to read?\n";
-		std::cin>>n;
-		n2 = n;
+		std::cout<<"Which chapter do you want to read? (ex: 1 ; ex: 1 30 (chapter 1 to 30)\n";
+		std::cin.getline(read_buff, 100);
+		n2 = 0;
+		sscanf(read_buff, "%u %u", &n, &n2);
+		interval =  (n2 != 0);
 	}
 	
-	if (n > manga.getChapters() || n == 0 || n2 > manga.getChapters() || n2 == 0 || n > n2)
+	while (n > manga.getChapters() || n == 0 || n2 > manga.getChapters() || (n2 != 0 && n > n2))
 	{
-		n = 0;
-		interval = false;
-	}
-	
-	
-	while (n > manga.getChapters() || n == 0)
-	{
-		std::cout<<"You must enter a number in range 1.."<<manga.getChapters()<<"\n";
-		std::cin>>n;
+		std::cout<<"You must enter numbers in range 1.."<<manga.getChapters()<<"\n";
+		std::cin.getline(read_buff, 100);
+		n2 = 0;
+		sscanf(read_buff, "%u %u", &n, &n2);
+		interval =  (n2 != 0);
 	}
 	
 	//manga.showChapters();
