@@ -26,6 +26,8 @@ Parsers:
 -Manga Fox[ENG] (by me aka Posva)
 -MangaHere[ENG] (by me aka Posva)
 
+Binaries
+You can download compiled binaries here: http://posva.github.com/MangaDown/
 
 How to create your parser
 Copy one that already exists and find words that will allow you to find the required information fro downloading the mangas.
