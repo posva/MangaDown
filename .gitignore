@@ -1,0 +1,6 @@
+bin/
+obj/
+test/
+mangas/
+distributions/
+.DS_Store

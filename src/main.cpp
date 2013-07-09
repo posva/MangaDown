@@ -54,7 +54,7 @@ int main (int argc, const char * argv[])
 	getFiles("parsers", parsers, ".ini");
 	
 	bool can(false);
-	unsigned int parser_i;
+	unsigned int parser_i(0);
 	for (unsigned int i(0); i<parsers.size(); ++i)
 		if (parsers[i] == getHostName(manga_url) + ".ini")
 			can = true, parser_i = i;

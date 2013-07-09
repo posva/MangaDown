@@ -27,8 +27,8 @@ bool IniFile::load(const std::string& Path)
 	if(File)
 	{
 		free();
-		Section *CurrentSection;
-		std::string line, key, value;
+		Section *CurrentSection(NULL);
+                std::string line, key, value;
 		while(std::getline(File, line))
 		{
 			if(line[0] == '[')
