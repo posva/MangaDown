@@ -1,4 +1,4 @@
-CXX = g++
+CXX = xcrun clang++
 OBJ = obj/
 SRC = src/
 BIN = bin/
@@ -6,7 +6,7 @@ POINTCPP = $(wildcard $(SRC)*.cpp) $(wildcard $(SRC)*/*.cpp)
 POINTOP := $(POINTCPP:.cpp=.o)
 POINTO = $(patsubst src/%,$(OBJ)%,$(POINTOP)) #$(POINTOP:src=obj)
 
-OPT := -Wall -pedantic -Wno-long-long -O2 -g -I "$(SRC)"
+OPT := -Wall -pedantic -Wno-long-long -O2 -g -std=c++11 -stdlib=libc++ -I "$(SRC)"
 
 ifeq ($(SHELL), sh.exe) 
 OS := Win
